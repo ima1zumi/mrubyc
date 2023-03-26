@@ -372,6 +372,33 @@ int mrbc_string_chomp(mrbc_value *src)
 
 
 //================================================================
+/*! remove the CR,LF in myself
+
+  TODO: ここの説明をかえる
+  @param  src	pointer to target value
+  @return	0 when not removed.
+*/
+int mrbc_string_utf8_size(const char *str) {
+  int len = 0;
+
+  if ((*str & 0xC0) == 0x80) {
+    // 2バイト目以降
+    // TODO: error
+  } else if ((*str & 0x80) == 0x00) {
+    len = 1;
+  } else if ((*str & 0xE0) == 0xC0) {
+    len = 2;
+  } else if ((*str & 0xF0) == 0xE0) {
+    len = 3;
+  } else if ((*str & 0xF8) == 0xF0) {
+    len = 4;
+  } else {
+    // TODO: error
+  }
+  return len;
+}
+
+//================================================================
 /*! (method) new
 */
 static void c_string_new(struct VM *vm, mrbc_value v[], int argc)
