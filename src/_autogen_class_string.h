@@ -43,6 +43,7 @@ static const mrbc_sym method_symbols_String[] = {
   MRBC_SYM(tr),
   MRBC_SYM(tr_E),
   MRBC_SYM(utf8_size),
+  MRBC_SYM(utf8_slice),
 };
 
 static const mrbc_func_t method_functions_String[] = {
@@ -86,6 +87,7 @@ static const mrbc_func_t method_functions_String[] = {
   c_string_tr,
   c_string_tr_self,
   c_string_utf8_size,
+  c_string_utf8_slice,
 };
 
 struct RBuiltinClass mrbc_class_String = {
