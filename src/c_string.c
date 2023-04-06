@@ -1329,7 +1329,6 @@ static void c_string_utf8_size(struct VM *vm, mrbc_value v[], int argc)
 /*! get utf-8 string size
 */
 
-#include <stdio.h>
 static void c_string_utf8_slice(struct VM *vm, mrbc_value v[], int argc)
 {
   char *str = mrbc_string_cstr(&v[0]);
