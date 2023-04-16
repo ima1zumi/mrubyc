@@ -1016,6 +1016,7 @@ class StringTest < MrubycTestCase
   def string_inspect_case
     assert_equal "\"\\x00\"", "\0".inspect
     assert_equal "\"foo\"", "foo".inspect
+    assert_equal "\"あいう\"", "あいう".inspect
   end
 
 end
