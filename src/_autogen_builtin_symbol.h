@@ -158,11 +158,10 @@ static const char *builtin_symbols[] = {
   "tr",			// MRBC_SYMID_tr = 151(0x97)
   "tr!",		// MRBC_SYMID_tr_E = 152(0x98)
   "unshift",		// MRBC_SYMID_unshift = 153(0x99)
-  "utf8_size",		// MRBC_SYMID_utf8_size = 154(0x9a)
-  "utf8_slice",		// MRBC_SYMID_utf8_slice = 155(0x9b)
-  "values",		// MRBC_SYMID_values = 156(0x9c)
-  "|",			// MRBC_SYMID_OR = 157(0x9d)
-  "~",			// MRBC_SYMID_NEG = 158(0x9e)
+  "utf8_slice",		// MRBC_SYMID_utf8_slice = 154(0x9a)
+  "values",		// MRBC_SYMID_values = 155(0x9b)
+  "|",			// MRBC_SYMID_OR = 156(0x9c)
+  "~",			// MRBC_SYMID_NEG = 157(0x9d)
 };
 #endif
 
@@ -321,11 +320,10 @@ enum {
   MRBC_SYMID_tr = 151,
   MRBC_SYMID_tr_E = 152,
   MRBC_SYMID_unshift = 153,
-  MRBC_SYMID_utf8_size = 154,
-  MRBC_SYMID_utf8_slice = 155,
-  MRBC_SYMID_values = 156,
-  MRBC_SYMID_OR = 157,
-  MRBC_SYMID_NEG = 158,
+  MRBC_SYMID_utf8_slice = 154,
+  MRBC_SYMID_values = 155,
+  MRBC_SYMID_OR = 156,
+  MRBC_SYMID_NEG = 157,
 };
 
 #define MRB_SYM(sym)  MRBC_SYMID_##sym
