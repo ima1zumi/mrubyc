@@ -599,6 +599,11 @@ static void c_string_slice(struct VM *vm, mrbc_value v[], int argc)
   if( len < 0 ) goto RETURN_NIL;
   if( argc == 1 && len <= 0 ) goto RETURN_NIL;
 
+#if MRBC_USE_UTF8
+  pos = mrbc_string_chars2bytes(v, 0, pos);
+  len = mrbc_string_chars2bytes(v, pos, len);
+#endif
+
   mrbc_value ret = mrbc_string_new(vm, mrbc_string_cstr(v) + pos, len);
   if( !ret.string ) goto RETURN_NIL;		// ENOMEM
 
@@ -1400,61 +1405,6 @@ static void c_string_bytes(struct VM *vm, mrbc_value v[], int argc)
   SET_RETURN(ret);
 }
 
-//================================================================
-/*! get utf-8 string size
-*/
-
-static void c_string_utf8_slice(struct VM *vm, mrbc_value v[], int argc)
-{
-  char *str = mrbc_string_cstr(&v[0]);
-  int pos = mrbc_integer(v[1]);
-  int len;
-  int current_char_bytesize = 0;
-  int word_counter = 0;
-  int length_counter = 1;
-  int bytesize_counter = 0;
-  int flag = 0;
-
-  // in case of slice!(nth) -> String | nil
-  if( argc == 1 && mrbc_type(v[1]) == MRBC_TT_INTEGER ) {
-    len = 1;
-
-    // in case of slice!(nth, len) -> String | nil
-  } else if (argc == 2 && mrbc_type(v[1]) == MRBC_TT_INTEGER &&
-      mrbc_type(v[2]) == MRBC_TT_INTEGER) {
-    len = mrbc_integer(v[2]);
-  }
-
-  while (*str != '\0') {
-    current_char_bytesize = mrbc_string_utf8_size(str);
-    if (current_char_bytesize != 0) {
-      if (word_counter == pos || flag == 1) {
-        if (length_counter == len) {
-          bytesize_counter += current_char_bytesize;
-          char result[bytesize_counter + 1];
-          strncpy(result, str-bytesize_counter+current_char_bytesize, bytesize_counter);
-          result[bytesize_counter] = '\0';
-
-          mrbc_value ret = mrbc_string_new_cstr(vm, result);
-          if (!ret.string)
-            goto RETURN_NIL; // ENOMEM
-          SET_RETURN(ret);
-          return; // normal return
-        } else {
-          flag = 1;
-          bytesize_counter += current_char_bytesize;
-          length_counter++;
-        }
-      }
-      word_counter++;
-    }
-    str++;
-  }
-
-RETURN_NIL:
-  SET_NIL_RETURN();
-}
-
 /* MRBC_AUTOGEN_METHOD_TABLE
 
   CLASS("String")
@@ -1496,7 +1446,6 @@ RETURN_NIL:
   METHOD( "end_with?",	c_string_end_with )
   METHOD( "include?",	c_string_include )
   METHOD( "bytes",	c_string_bytes )
-  METHOD( "utf8_slice",	c_string_utf8_slice )
 
 #if MRBC_USE_FLOAT
   METHOD( "to_f",	c_string_to_f )
