@@ -47,6 +47,36 @@ class StringStripTest < MrubycTestCase
     assert_equal "", s.strip
     assert_equal "\0", s.lstrip
     assert_equal "", s.rstrip
+
+    s = " あ い う "
+    assert_equal "あ い う", s.strip
+    assert_equal "あ い う ", s.lstrip
+    assert_equal " あ い う", s.rstrip
+
+    s = "あいう"
+    assert_equal "あいう", s.strip
+    assert_equal "あいう", s.lstrip
+    assert_equal "あいう", s.rstrip
+
+    s = " あいう"
+    assert_equal "あいう", s.strip
+    assert_equal "あいう", s.lstrip
+    assert_equal " あいう", s.rstrip
+
+    s = "あいう "
+    assert_equal "あいう", s.strip
+    assert_equal "あいう ", s.lstrip
+    assert_equal "あいう", s.rstrip
+
+    s = " \t\r\n\f\vあいう \t\r\n\f\v\0"
+    assert_equal "あいう", s.strip
+    assert_equal "あいう \t\r\n\f\v\0", s.lstrip
+    assert_equal " \t\r\n\f\vあいう", s.rstrip
+
+    s = " \0あいう\0 "
+    assert_equal "\0あいう", s.strip
+    assert_equal "\0あいう\0 ", s.lstrip
+    assert_equal " \0あいう", s.rstrip
   end
 
   description "strip!"
@@ -86,6 +116,25 @@ class StringStripTest < MrubycTestCase
     s = "\0"
     assert_equal "", s.strip!
     assert_equal "", s
+
+    s = " あ い う "
+    assert_equal "あ い う", s.strip!
+
+    # FIXME
+    # s = "あいう"
+    # assert_equal "あいう", s.strip!
+
+    s = " あいう"
+    assert_equal "あいう", s.strip!
+
+    s = "あいう "
+    assert_equal "あいう", s.strip!
+
+    s = " \t\r\n\f\vあいう \t\r\n\f\v\0"
+    assert_equal "あいう", s.strip!
+
+    s = " \0あいう\0 "
+    assert_equal "\0あいう", s.strip!
   end
 
   description "lstrip!"
@@ -125,6 +174,26 @@ class StringStripTest < MrubycTestCase
     s = "\0"
     assert_equal nil, s.lstrip!
     assert_equal "\0", s
+
+    s = " あ い う "
+    assert_equal "あ い う ", s.lstrip!
+
+    # FIXME
+    # s = "あいう"
+    # assert_equal "あいう", s.lstrip!
+
+    s = " あいう"
+    assert_equal "あいう", s.lstrip!
+
+    # FIXME
+    # s = "あいう "
+    # assert_equal "あいう ", s.lstrip!
+
+    s = " \t\r\n\f\vあいう \t\r\n\f\v\0"
+    assert_equal "あいう \t\r\n\f\v\0", s.lstrip!
+
+    s = " \0あいう\0 "
+    assert_equal "\0あいう\0 ", s.lstrip!
   end
 
   description "rstrip!"
@@ -164,6 +233,26 @@ class StringStripTest < MrubycTestCase
     s = "\0"
     assert_equal "", s.rstrip!
     assert_equal "", s
+
+    s = " あ い う "
+    assert_equal " あ い う", s.rstrip!
+
+    # FIXME
+    # s = "あいう"
+    # assert_equal "あいう", s.rstrip!
+
+    # FIXME
+    # s = " あいう"
+    # assert_equal " あいう", s.rstrip!
+
+    s = "あいう "
+    assert_equal "あいう", s.rstrip!
+
+    s = " \t\r\n\f\vあいう \t\r\n\f\v\0"
+    assert_equal " \t\r\n\f\vあいう", s.rstrip!
+
+    s = " \0あいう\0 "
+    assert_equal " \0あいう", s.rstrip!
   end
 
   description "chomp"
@@ -202,6 +291,36 @@ class StringStripTest < MrubycTestCase
     s2 = s1.chomp
     assert_equal "foo\r\n\r\n", s1
     assert_equal "foo\r\n", s2
+
+    s1 = "あいう\r\n"
+    s2 = s1.chomp
+    assert_equal "あいう\r\n", s1
+    assert_equal "あいう", s2
+
+    s1 = "あいう\r"
+    s2 = s1.chomp
+    assert_equal "あいう\r", s1
+    assert_equal "あいう", s2
+
+    s1 = "あいう\n"
+    s2 = s1.chomp
+    assert_equal "あいう\n", s1
+    assert_equal "あいう", s2
+
+    s1 = "あいう"
+    s2 = s1.chomp
+    assert_equal "あいう", s1
+    assert_equal "あいう", s2
+
+    s1 = "あいう\r\n\r\n"
+    s2 = s1.chomp
+    assert_equal "あいう\r\n\r\n", s1
+    assert_equal "あいう\r\n", s2
+
+    s1 = "あいう\r\nあいう\r\n"
+    s2 = s1.chomp
+    assert_equal "あいう\r\nあいう\r\n", s1
+    assert_equal "あいう\r\nあいう", s2
   end
 
   description "chomp!"
@@ -221,6 +340,18 @@ class StringStripTest < MrubycTestCase
     s = "\r\n"
     assert_equal "", s.chomp!
     assert_equal "", s
+
+    s = "あいう\r\n"
+    assert_equal "あいう", s.chomp!
+    assert_equal "あいう", s
+
+    s = "あいう"
+    assert_equal nil, s.chomp!
+    assert_equal "あいう", s
+
+    s = "あいう\r\nあいう\r\n"
+    s = s.chomp!
+    assert_equal "あいう\r\nあいう", s
   end
 
 end
